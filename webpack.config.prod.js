@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const bourbon = require('node-bourbon').includePaths;
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -34,7 +35,8 @@ module.exports = {
       compressor: {
         warnings: false
       }
-    })
+    }),
+    new ExtractTextPlugin('bundle.css', { allChunks: true })
   ],
   module: {
     loaders: [
@@ -47,9 +49,9 @@ module.exports = {
         test: /\.scss$/,
         loader: 'style!css!sass?includePaths[]=' + bourbon
       },
-      { 
-        test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=8192'
+      {
+        test: /\.(png|jpg|gif)$/,
+        loader: 'file?name=[name].[ext]'
       }
     ]
   }
